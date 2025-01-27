@@ -12,7 +12,7 @@ class CrudAlunos {
 
             if (file) {
 
-                
+
                 res.json({ message: 'Aluno cadastrado com sucesso!' });
             }
             else {
@@ -57,14 +57,23 @@ class CrudAlunos {
         try {
             const { id, name, email } = req.body;
 
-            const db = await openDb();
-            let sql = `UPDATE alunos SET name = ?, email = ?, updated_at=datetime("now") WHERE id = ?`;
-            let stmt = await db.prepare(sql);
-            await stmt.run([name, email, id]);
-            await stmt.finalize();
-            await db.close();
+            const file = req.file;
 
-            res.json({ message: 'Aluno atualizado com sucesso!' });
+            if (file) {
+
+                //waiting for the implementation of the file upload
+            } else {
+
+                const db = await openDb();
+                let sql = `UPDATE alunos SET name = ?, email = ?, updated_at=datetime("now") WHERE id = ?`;
+                let stmt = await db.prepare(sql);
+                await stmt.run([name, email, id]);
+                await stmt.finalize();
+                await db.close();
+
+                res.json({ message: 'Aluno atualizado com sucesso!' });
+            }
+
         } catch (erro) {
             res.send(erro);
         }
