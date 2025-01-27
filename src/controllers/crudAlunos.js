@@ -8,15 +8,23 @@ class CrudAlunos {
     async createAluno(req, res) {
         try {
             const { name, email } = req.body;
+            const file = req.file;
 
-            const db = await openDb();
-            let sql = `INSERT INTO alunos (name, email) VALUES (?, ?)`;
-            let stmt = await db.prepare(sql);
-            await stmt.run([name, email]);
-            await stmt.finalize();
-            await db.close();
+            if (file) {
 
-            res.json({ message: 'Aluno cadastrado com sucesso!' });
+                
+                res.json({ message: 'Aluno cadastrado com sucesso!' });
+            }
+            else {
+                res.json({ message: 'Aluno cadastrado com sucesso!, sem foto.' });
+                const db = await openDb();
+                let sql = `INSERT INTO alunos (name, email) VALUES (?, ?)`;
+                let stmt = await db.prepare(sql);
+                await stmt.run([name, email]);
+                await stmt.finalize();
+                await db.close();
+                //Waiting for the implementation of the file upload
+            }
         } catch (erro) {
             res.send(erro);
         }
@@ -33,7 +41,7 @@ class CrudAlunos {
                 let aluno = await stmt.get(id);
                 await stmt.finalize();
                 res.json(aluno);
-            }else{
+            } else {
                 let sql = `SELECT * FROM alunos`;
                 let alunos = await db.all(sql);
                 await db.close();

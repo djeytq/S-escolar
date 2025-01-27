@@ -3,6 +3,8 @@ const app=express();
 const routes = require('./routes');
 const Migration = require('./migration');
 const cors = require('cors');
+const dotenv=require('dotenv');
+dotenv.config();
 Migration();
 app.use(cors());
 
@@ -16,6 +18,7 @@ app.get('/',(req,res)=>{
 
 app.use(routes);
 
-app.listen(3000,()=>{
-    console.log('server is running on port 3000');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT,()=>{
+    console.log('server is running on port '+PORT);
 });

@@ -11,7 +11,6 @@ class CrudSession {
 
     async SignUp(req, res) {
         try {
-            const id = req.body.id;
             const name = req.body.name;
             const cargo = req.body.cargo;
             const email = req.body.email;
@@ -27,9 +26,9 @@ class CrudSession {
             await stmt.run([name, cargo, email, passwordHash, isActive]);
             await stmt.finalize();
 
-            res.json({ message: 'Administrador cadastrado com sucesso!' });
+            res.json({ message: 'Administrador cadastrado com sucesso, okay!' });
         } catch (erro) {
-            res.send(erro);
+            res.send('erro => ' + erro);
         }
     }
 

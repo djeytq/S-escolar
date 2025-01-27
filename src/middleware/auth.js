@@ -14,7 +14,7 @@ async function middleware(req, res, next) {
         id: adm.id,
         cargo: adm.cargo
     };
-    console.log(req.adm);
+    // console.log(req.adm);
         next();
     } catch (error) {
         return res.status(401).json({ message: 'Token inválido!' });
